@@ -1,0 +1,25 @@
+{
+  "name": "watchwise",
+  "version": "1.0.0",
+  "description": "Movie search and watchlist app with auth and sessions (TMDB-powered)",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "nodemon server/index.js",
+    "start": "node server/index.js"
+  },
+  "keywords": ["movies", "tmdb", "watchlist", "express", "sqlite"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-sqlite3": "^0.9.15",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "node-fetch": "^2.6.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

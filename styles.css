@@ -3,6 +3,16 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+html{
+  background-image: url("backg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Header Styles */
@@ -18,47 +28,20 @@ header h1 {
   font-size: 24px;
   margin-right: auto;
 }
-html{
-  background-image: url("backg.jpg");
-}
 
-
-#watchlist-button {
-  padding: 8px 16px;
-  background-color: rgb(245, 55, 150);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-  margin-right: 10px;
-}
-
-#watchlist-button:hover {
-  background-color: #555;
+nav a.secondary, nav button.secondary, .user-email {
   color: #fff;
+  margin-left: 12px;
+  text-decoration: none;
+  opacity: 0.9;
 }
 
-#home-button {
-  padding: 8px 16px;
-  background-color: rgb(80, 80, 226);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-#home-button:hover {
-  background-color: #555;
-  color: #fff;
-}
+.user-email { font-weight: bold; }
 
 /* Main Content Styles */
 main {
   padding: 20px;
+  flex: 1 0 auto;
 }
 
 .search-container {
@@ -95,7 +78,7 @@ main {
 }
 
 .movie-card {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 5px;
   padding: 10px;
   text-align: center;
@@ -153,23 +136,18 @@ main p {
   background-color: #c0392b;
 }
 
-/*Footer Styles */
+/* Footer Styles */
 footer {
-  background-color: #333;
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
   padding: 20px;
   text-align: center;
-  }
-  
-  footer p {
-  margin: 0;
-  }
+  flex-shrink: 0;
+}
 
- /* styles.css */
+footer p { margin: 0; }
 
-/* Watchlist page */
-
-/* Watchlist container */
+/* Watchlist grid */
 #watchlist-results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -177,34 +155,7 @@ footer {
   justify-items: center;
 }
 
-/* Movie card */
-.movie-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 200px;
-  margin: 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f5f5f5;
-}
-
-/* Movie poster */
-.movie-card .movie-poster {
-  width: 150px;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-/* Movie title */
-.movie-card .movie-title {
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-
+/* Remove button */
 .remove-button {
   background-color: #e74c3c;
   color: #fff;
@@ -216,7 +167,67 @@ footer {
   border-radius: 5px;
 }
 
-.remove-button:hover {
-  background-color: #c0392b;
+.remove-button:hover { background-color: #c0392b; }
+
+/* Buttons in header */
+#watchlist-button {
+  padding: 8px 16px;
+  background-color: rgb(245, 55, 150);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
 }
+
+#watchlist-button:hover { background-color: #555; color: #fff; }
+
+#home-button {
+  padding: 8px 16px;
+  background-color: rgb(80, 80, 226);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#home-button:hover { background-color: #555; color: #fff; }
+
+/* Forms */
+.card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 420px;
+  margin: 20px auto;
+}
+
+.form-card h2 { margin-top: 0; }
+
+label { display: block; margin: 10px 0; color: #222; }
+input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button[type="submit"], #login-button, #register-button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: rgb(80, 80, 226);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.muted { color: #555; }
+.error { color: #e74c3c; }
 
