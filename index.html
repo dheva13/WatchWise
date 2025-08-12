@@ -9,19 +9,26 @@
 <body>
   <header>
     <h1>WatchWise</h1>
-    <button id="watchlist-button">Watchlist</button>
+    <nav>
+      <button id="watchlist-button">Watchlist</button>
+      <span id="auth-links"></span>
+    </nav>
   </header>
   
   <main>
     <form id="search-form" class="search-container">
-      <input type="text" id="search-input" placeholder="Search movies...">
+      <input type="text" id="search-input" placeholder="Search movies..." aria-label="Search movies">
       <button type="submit" id="search-button">Search</button>
     </form>
 
     <div id="search-results"></div>
   </main>
 
-  <script src="config.js"></script>
+  <footer>
+    <p>Powered by TMDB — This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </footer>
+
+  <script src="auth.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

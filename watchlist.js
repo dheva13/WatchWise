@@ -11,22 +11,46 @@ function goHome() {
   window.location.href = "index.html";
 }
 
-// Function to clear the watchlist
-function clearWatchlist() {
-  const confirmed = confirm("Are you sure you want to clear the watchlist?");
-  if (confirmed) {
-    localStorage.removeItem("watchlist");
-    watchlistResults.innerHTML = "<p>Your watchlist is empty.</p>";
+async function fetchWatchlist() {
+  const res = await fetch('/api/watchlist');
+  if (res.status === 401) {
+    window.location.href = 'login.html';
+    return [];
   }
+  if (!res.ok) throw new Error('Failed to load watchlist');
+  const data = await res.json();
+  return data.items || [];
 }
 
-// Function to load watchlist from local storage
-function loadWatchlist() {
-  const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-  if (watchlist.length === 0) {
-    watchlistResults.innerHTML = "<p>Your watchlist is empty.</p>";
-  } else {
-    displayMovies(watchlist);
+// Function to clear the watchlist
+async function clearWatchlist() {
+  const confirmed = confirm("Are you sure you want to clear the watchlist?");
+  if (!confirmed) return;
+  const items = await fetchWatchlist();
+  await Promise.allSettled(items.map((item) => deleteItem(item.tmdbId)));
+  await loadWatchlist();
+}
+
+async function deleteItem(tmdbId) {
+  const res = await fetch(`/api/watchlist/${tmdbId}`, { method: 'DELETE' });
+  if (res.status === 401) {
+    window.location.href = 'login.html';
+    return;
+  }
+  if (!res.ok) throw new Error('Failed to remove item');
+}
+
+// Function to load watchlist from server
+async function loadWatchlist() {
+  try {
+    const items = await fetchWatchlist();
+    if (items.length === 0) {
+      watchlistResults.innerHTML = "<p>Your watchlist is empty.</p>";
+    } else {
+      displayMovies(items);
+    }
+  } catch (e) {
+    watchlistResults.innerHTML = `<p class="error">${e.message}</p>`;
   }
 }
 
@@ -44,8 +68,8 @@ function createMovieCard(movie) {
   const movieCard = document.createElement("div");
   movieCard.classList.add("movie-card");
 
-  const posterPath = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+  const posterPath = movie.posterPath
+    ? `https://image.tmdb.org/t/p/w500${movie.posterPath}`
     : "https://placehold.co/200x300?text=No+Image";
   const moviePoster = document.createElement("img");
   moviePoster.src = posterPath;
@@ -53,7 +77,7 @@ function createMovieCard(movie) {
   moviePoster.classList.add("movie-poster");
   movieCard.appendChild(moviePoster);
 
-  const year = movie.release_date ? movie.release_date.slice(0, 4) : "N/A";
+  const year = movie.releaseYear || "N/A";
   const movieTitle = document.createElement("h3");
   movieTitle.textContent = `${movie.title || "Untitled"} (${year})`;
   movieTitle.classList.add("movie-title");
@@ -62,9 +86,16 @@ function createMovieCard(movie) {
   const removeButton = document.createElement("button");
   removeButton.textContent = "Remove";
   removeButton.classList.add("remove-button");
-  removeButton.addEventListener("click", () => {
-    removeMovieFromWatchlist(movie);
-    movieCard.remove();
+  removeButton.addEventListener("click", async () => {
+    try {
+      await deleteItem(movie.tmdbId);
+      movieCard.remove();
+      if (!watchlistResults.hasChildNodes()) {
+        watchlistResults.innerHTML = "<p>Your watchlist is empty.</p>";
+      }
+    } catch (e) {
+      alert(e.message);
+    }
   });
   movieCard.appendChild(removeButton);
 
@@ -75,14 +106,7 @@ function createMovieCard(movie) {
 window.addEventListener("load", loadWatchlist);
 
 // Function to remove a movie from the watchlist
-function removeMovieFromWatchlist(movie) {
-  const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-  const movieIndex = watchlist.findIndex((item) => item.id === movie.id);
-  if (movieIndex !== -1) {
-    watchlist.splice(movieIndex, 1);
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }
-}
+function removeMovieFromWatchlist(movie) { /* no-op, server-backed now */ }
 
 
 

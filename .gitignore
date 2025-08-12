@@ -26,3 +26,6 @@ yarn-error.log*
 .idea/
 .vscode/
 *.swp
+
+# Data files (SQLite)
+data/*.sqlite

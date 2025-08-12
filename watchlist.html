@@ -9,12 +9,20 @@
 <body>
   <header>
     <h1>My Watchlist</h1>
-    <button id="home-button">Home</button>
-    <button id="clear-button">Clear</button>
+    <nav>
+      <button id="home-button">Home</button>
+      <button id="clear-button">Clear</button>
+      <span id="auth-links"></span>
+    </nav>
   </header>
 
   <main id="watchlist-results"></main>
 
+  <footer>
+    <p>Powered by TMDB — This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </footer>
+
+  <script src="auth.js"></script>
   <script src="watchlist.js"></script>
 </body>
 </html>
