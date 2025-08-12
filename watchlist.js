@@ -41,48 +41,38 @@ function displayMovies(movies) {
 
 // Function to create a movie card
 function createMovieCard(movie) {
-    const movieCard = document.createElement("div");
-    movieCard.classList.add("movie-card");
-  
-    const posterPath = movie.poster_path
-      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-      : "no-poster.jpg";
-    const moviePoster = document.createElement("img");
-    moviePoster.src = posterPath;
-    moviePoster.alt = movie.title;
-    moviePoster.classList.add("movie-poster");
-    movieCard.appendChild(moviePoster);
-  
-    const movieTitle = document.createElement("h3");
-    movieTitle.textContent = `${movie.title} (${movie.release_date.slice(0, 4)})`;
-    movieTitle.classList.add("movie-title");
-    movieCard.appendChild(movieTitle);
-  
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Remove";
-    removeButton.classList.add("remove-button");
-    removeButton.addEventListener("click", () => {
-      removeMovieFromWatchlist(movie);
-      movieCard.remove();
-    });
-    movieCard.appendChild(removeButton);
-  
-    return movieCard;
-  }
-  
+  const movieCard = document.createElement("div");
+  movieCard.classList.add("movie-card");
+
+  const posterPath = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : "https://placehold.co/200x300?text=No+Image";
+  const moviePoster = document.createElement("img");
+  moviePoster.src = posterPath;
+  moviePoster.alt = movie.title || "Movie Poster";
+  moviePoster.classList.add("movie-poster");
+  movieCard.appendChild(moviePoster);
+
+  const year = movie.release_date ? movie.release_date.slice(0, 4) : "N/A";
+  const movieTitle = document.createElement("h3");
+  movieTitle.textContent = `${movie.title || "Untitled"} (${year})`;
+  movieTitle.classList.add("movie-title");
+  movieCard.appendChild(movieTitle);
+
+  const removeButton = document.createElement("button");
+  removeButton.textContent = "Remove";
+  removeButton.classList.add("remove-button");
+  removeButton.addEventListener("click", () => {
+    removeMovieFromWatchlist(movie);
+    movieCard.remove();
+  });
+  movieCard.appendChild(removeButton);
+
+  return movieCard;
+}
+
 // Load watchlist when the page loads
 window.addEventListener("load", loadWatchlist);
-
-
-
-
-
-
-
-
-
-//=======================================================
-// Function to create a movie card
 
 // Function to remove a movie from the watchlist
 function removeMovieFromWatchlist(movie) {
